@@ -1,6 +1,6 @@
 import React from "react"
 
-const WORD_LENGTHS = ["5", "7", "10"]
+const WORD_LENGTHS = ["5", "10", "15"]
 
 const Settings = ({
   settings: { wordLength: currentWordLength, ...settings },

@@ -3,9 +3,9 @@ import { SocialIcon } from "react-social-icons"
 
 import Timer from "./Timer"
 
-const Footer = ({ timers }) => (
+const Footer = props => (
   <div style={{ marginBottom: 20 }}>
-    <Timer timers={timers} />
+    <Timer {...props} />
     <div>
       <SocialIcon
         style={{ marginRight: 10 }}
@@ -22,7 +22,11 @@ const Footer = ({ timers }) => (
       <span role="img" aria-label="heart">
         ❤️
       </span>{" "}
-      on a lazy Saturday morning in November...
+      by{" "}
+      <a style={{ color: "lightblue" }} href="https://james.now.sh">
+        {" "}
+        James Adams{" "}
+      </a>
     </div>
   </div>
 )

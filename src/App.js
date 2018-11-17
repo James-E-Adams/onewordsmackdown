@@ -6,6 +6,7 @@ import "./App.css"
 import wordList from "./wordList.json"
 import Settings from "./components/Settings"
 import createWordState from "./utils/createWordState"
+import HighScores from "./components/HighScores"
 
 const getRandomIndex = wordLength =>
   parseInt(Math.random() * wordList[wordLength].length)
@@ -15,15 +16,16 @@ const getRandomWord = wordLength =>
 
 const getNewWordState = wordLength => createWordState(getRandomWord(wordLength))
 
-const App = function() {
+const App = () => {
   const [settings, setSettings] = useState({
-    wordLength: "5"
+    wordLength: "10"
   })
   const [showSettings, setShowSettings] = useState(true)
   const [timers, setTimers] = useState({ start: false, end: false })
   const [wordState, setWordState] = useState(
     getNewWordState(settings.wordLength)
   )
+  const [highScores, setHighScores] = useState(false)
   const getNewWord = customWordLength =>
     setWordState(getNewWordState(customWordLength || settings.wordLength))
 
@@ -32,16 +34,26 @@ const App = function() {
       <div className="App-root">
         <div
           style={{
+            display: "flex",
             fontSize: 17,
             paddingTop: 10,
             width: "100%",
-            textAlign: "right",
-            paddingRight: 10,
-            color: "lightblue"
+            justifyContent: "space-between"
           }}
           onClick={() => setShowSettings(!showSettings)}
         >
-          {showSettings ? "Close" : "Show settings"}
+          <HighScores highScores={highScores} setHighScores={setHighScores} />
+          <button
+            style={{
+              color: "lightblue",
+              marginLeft: "auto",
+              marginRight: 20,
+              fontSize: 20,
+              borderRadius: 10
+            }}
+          >
+            {showSettings ? "Close" : "Show settings"}
+          </button>
         </div>
         {showSettings ? (
           <Settings
@@ -51,11 +63,14 @@ const App = function() {
           />
         ) : (
           <WordHandler
-            wordState={wordState}
+            wordState={console.tapLog(wordState)}
             setWordState={setWordState}
             timers={timers}
             setTimers={setTimers}
             getNewWord={getNewWord}
+            wordLength={settings.wordLength}
+            highScores={highScores}
+            setHighScores={setHighScores}
           />
         )}
         <Footer timers={timers} setTimers={setTimers} />
