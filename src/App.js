@@ -1,12 +1,15 @@
+import branch from "recompose/branch"
 import React, { useState } from "react"
-import WordHandler from "./components/WordHandler"
-import Footer from "./components/Footer"
-import "./App.css"
+import renderComponent from "recompose/renderComponent"
 
+import "./App.css"
 import wordList from "./wordList.json"
+import Footer from "./components/Footer"
 import Settings from "./components/Settings"
-import createWordState from "./utils/createWordState"
 import HighScores from "./components/HighScores"
+import WordHandler from "./components/WordHandler"
+import createWordState from "./utils/createWordState"
+import MobileApologies from "./components/MobileApologies"
 
 const getRandomIndex = wordLength =>
   parseInt(Math.random() * wordList[wordLength].length)
@@ -20,12 +23,19 @@ const App = () => {
   const [settings, setSettings] = useState({
     wordLength: "10"
   })
-  const [showSettings, setShowSettings] = useState(true)
+  const [showSettings, setShowSettings] = useState(false)
   const [timers, setTimers] = useState({ start: false, end: false })
   const [wordState, setWordState] = useState(
     getNewWordState(settings.wordLength)
   )
-  const [highScores, setHighScores] = useState(false)
+  const [highScores, setHighScores] = useState(
+    // {
+    //   "5": "0.000",
+    //   "10": "",
+    //   "15": "1.223"
+    // }
+    {}
+  )
   const getNewWord = customWordLength =>
     setWordState(getNewWordState(customWordLength || settings.wordLength))
 
@@ -40,17 +50,23 @@ const App = () => {
             width: "100%",
             justifyContent: "space-between"
           }}
-          onClick={() => setShowSettings(!showSettings)}
         >
           <HighScores highScores={highScores} setHighScores={setHighScores} />
           <button
             style={{
-              color: "lightblue",
               marginLeft: "auto",
               marginRight: 20,
+              backgroundColor: "#282c34",
               fontSize: 20,
-              borderRadius: 10
+              border: "white solid",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 40,
+              color: "white",
+              borderRadius: 100
             }}
+            onClick={() => setShowSettings(!showSettings)}
           >
             {showSettings ? "Close" : "Show settings"}
           </button>
@@ -63,7 +79,7 @@ const App = () => {
           />
         ) : (
           <WordHandler
-            wordState={console.tapLog(wordState)}
+            wordState={wordState}
             setWordState={setWordState}
             timers={timers}
             setTimers={setTimers}
@@ -84,4 +100,9 @@ console["tapLog"] = (...yargs) => {
   return yargs[yargs.length - 1]
 }
 
-export default App
+const isMobile = () =>
+  /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  )
+
+export default branch(isMobile, renderComponent(MobileApologies))(App)

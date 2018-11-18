@@ -15,9 +15,9 @@ const onKeyDown = ({
   timers,
   getNewWord,
   setWordState,
-  handleHighScores
+  handleHighScores,
+  wordLength
 }) => ({ key }) => {
-  debugger
   const upcomingLetter = remaining[0]
   if (key === upcomingLetter) {
     const nextWordState = createWordState(word, progress + upcomingLetter)
@@ -29,7 +29,6 @@ const onKeyDown = ({
       getNewWord()
       return
     }
-    console.tapLog("next: ", nextWordState)
     setWordState(nextWordState)
   } else {
     //maybe do something here later on wrong key
@@ -38,15 +37,16 @@ const onKeyDown = ({
 
 const handleHighScores = ({
   highScores,
+  wordState: { word },
   setHighScores,
   timers: { start, end },
   wordLength
 }) => () => {
   const newScore = calculateTimeLength(start, end)
-  ;(newScore < highScores[wordLength] || !highScores[wordLength]) &&
+  ;(!highScores[wordLength] || newScore < highScores[wordLength].time) &&
     setHighScores({
       ...highScores,
-      [wordLength]: newScore
+      [wordLength]: { time: newScore, word }
     })
 }
 
@@ -55,10 +55,10 @@ export default compose(
   withHandlers({ onKeyDown }),
   lifecycle({
     componentDidMount() {
-      this.listener = document.addEventListener("keydown", this.props.onKeyDown)
+      document.addEventListener("keydown", this.props.onKeyDown)
     },
     componentWillUnmount() {
-      document.removeEventListener("keydown", this.listener)
+      document.removeEventListener("keydown", this.props.onKeyDown)
     }
   })
 )(WordHandler)

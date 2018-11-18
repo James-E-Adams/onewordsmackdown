@@ -18,11 +18,11 @@
   font-size: 100px;
 }
 .word-progress {
-  color: white;
+  color: darkslategray;
 }
 
 .word-remaining {
-  color: darkslategray;
+  color: white;
 }
 
 .App-link {

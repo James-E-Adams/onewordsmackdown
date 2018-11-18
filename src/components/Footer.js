@@ -3,9 +3,9 @@ import { SocialIcon } from "react-social-icons"
 
 import Timer from "./Timer"
 
-const Footer = props => (
+const Footer = ({ timers, ...props }) => (
   <div style={{ marginBottom: 20 }}>
-    <Timer {...props} />
+    {timers && <Timer timers={timers} {...props} />}
     <div>
       <SocialIcon
         style={{ marginRight: 10 }}

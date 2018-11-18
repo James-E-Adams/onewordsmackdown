@@ -16,7 +16,12 @@ const Settings = ({
           style={{
             border: "white solid",
             padding: 14,
-            width: 30,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 40,
+            height: 40,
+            borderRadius: 100,
             marginRight: index !== WORD_LENGTHS - 1 && 20,
             backgroundColor: wordLength === currentWordLength && "lightblue"
           }}

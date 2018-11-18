@@ -8,9 +8,19 @@ const HighScores = ({ highScores, setHighScores }) => (
     {Object.keys(highScores).map(wordLength => (
       <div key={wordLength}>
         <span> {wordLength} letters</span>{" "}
-        <span style={{ fontWeight: 700 }}>{highScores[wordLength]}s</span>
+        <span style={{ fontWeight: 700, marginRight: 5 }}>
+          {highScores[wordLength].time}s
+        </span>
+        <span style={{ fontWeight: 700 }}>({highScores[wordLength].word})</span>
       </div>
     ))}
+    <span
+      onClick={() => setHighScores({})}
+      style={{ color: "lightblue", paddingTop: 20 }}
+    >
+      {" "}
+      Reset{" "}
+    </span>
   </div>
 )
 
