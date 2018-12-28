@@ -16,7 +16,9 @@ const onKeyDown = ({
   getNewWord,
   setWordState,
   handleHighScores,
-  wordLength
+  wordLength,
+  mistakes,
+  setMistakes
 }) => ({ key }) => {
   const upcomingLetter = remaining[0]
   if (key === upcomingLetter) {
@@ -31,7 +33,19 @@ const onKeyDown = ({
     }
     setWordState(nextWordState)
   } else {
-    //maybe do something here later on wrong key
+    if (!progress) return
+    const mistakeCombo = progress[progress.length - 1] + remaining[0]
+    setMistakes(
+      mistakes[mistakeCombo]
+        ? {
+            ...mistakes,
+            [mistakeCombo]: ++mistakes[mistakeCombo]
+          }
+        : {
+            ...mistakes,
+            [mistakeCombo]: 1
+          }
+    )
   }
 }
 
