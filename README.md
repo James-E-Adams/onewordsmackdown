@@ -1,6 +1,6 @@
 ## One word smackdown!
 
-[Check it out!](https://onewordsmackdown-7kexatmfx.now.sh/)
+[Check it out!](https://onewordsmackdown-mxzofmufbi.now.sh/)
 
 // Still waiting for the dns change to onewordsmackdown.xyz to flick over.
 
