@@ -113,7 +113,11 @@ const App = () => {
             setMistakes={setMistakes}
           />
         )}
-        <Footer timers={timers} setTimers={setTimers} />
+        <Footer
+          timers={timers}
+          setTimers={setTimers}
+          hasHighScore={Boolean(Object.keys(highScores).length)}
+        />
       </div>
     </div>
   )
