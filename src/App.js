@@ -10,6 +10,9 @@ import HighScores from "./components/HighScores"
 import WordHandler from "./components/WordHandler"
 import createWordState from "./utils/createWordState"
 import MobileApologies from "./components/MobileApologies"
+import Button from "./components/Button"
+import Mistakes from "./components/Mistakes"
+import isMobile from "./utils/isMobile"
 
 const getRandomIndex = wordLength =>
   parseInt(Math.random() * wordList[wordLength].length)
@@ -24,10 +27,12 @@ const App = () => {
     wordLength: "10"
   })
   const [showSettings, setShowSettings] = useState(false)
+  const [showMistakes, setShowMistakes] = useState(false)
   const [timers, setTimers] = useState({ start: false, end: false })
   const [wordState, setWordState] = useState(
     getNewWordState(settings.wordLength)
   )
+  const [mistakes, setMistakes] = useState({})
   const [highScores, setHighScores] = useState(
     // {
     //   "5": "0.000",
@@ -36,8 +41,10 @@ const App = () => {
     // }
     {}
   )
-  const getNewWord = customWordLength =>
+  const getNewWord = customWordLength => {
     setWordState(getNewWordState(customWordLength || settings.wordLength))
+    setTimers({ start: false, end: false })
+  }
 
   return (
     <div className="App">
@@ -45,6 +52,7 @@ const App = () => {
         <div
           style={{
             display: "flex",
+            alignItems: "center",
             fontSize: 17,
             paddingTop: 10,
             width: "100%",
@@ -52,24 +60,36 @@ const App = () => {
           }}
         >
           <HighScores highScores={highScores} setHighScores={setHighScores} />
-          <button
+          <div style={{ fontSize: 40 }}>
+            {showSettings ? "Settings" : showMistakes ? "Mistakes" : null}
+          </div>
+          <div
             style={{
-              marginLeft: "auto",
-              marginRight: 20,
-              backgroundColor: "#282c34",
-              fontSize: 20,
-              border: "white solid",
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 40,
-              color: "white",
-              borderRadius: 100
+              width: 400
             }}
-            onClick={() => setShowSettings(!showSettings)}
           >
-            {showSettings ? "Close" : "Show settings"}
-          </button>
+            {!showMistakes && (
+              <Button
+                onClick={() => {
+                  setShowSettings(!showSettings)
+                  getNewWord(settings.wordLength)
+                }}
+              >
+                {showSettings ? "Close" : "Show settings"}
+              </Button>
+            )}
+            {!showSettings && (
+              <Button
+                onClick={() => {
+                  setShowMistakes(!showMistakes)
+                  getNewWord(settings.wordLength)
+                }}
+              >
+                {showMistakes ? "Close" : "Show mistakes"}
+              </Button>
+            )}
+          </div>
         </div>
         {showSettings ? (
           <Settings
@@ -77,6 +97,8 @@ const App = () => {
             settings={settings}
             getNewWord={getNewWord}
           />
+        ) : showMistakes ? (
+          <Mistakes mistakes={mistakes} setMistakes={setMistakes} />
         ) : (
           <WordHandler
             wordState={wordState}
@@ -87,9 +109,15 @@ const App = () => {
             wordLength={settings.wordLength}
             highScores={highScores}
             setHighScores={setHighScores}
+            mistakes={mistakes}
+            setMistakes={setMistakes}
           />
         )}
-        <Footer timers={timers} setTimers={setTimers} />
+        <Footer
+          timers={timers}
+          setTimers={setTimers}
+          hasHighScore={Boolean(Object.keys(highScores).length)}
+        />
       </div>
     </div>
   )
@@ -99,10 +127,5 @@ console["tapLog"] = (...yargs) => {
   console.log(...yargs)
   return yargs[yargs.length - 1]
 }
-
-const isMobile = () =>
-  /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
 
 export default branch(isMobile, renderComponent(MobileApologies))(App)
