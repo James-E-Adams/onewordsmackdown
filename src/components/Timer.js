@@ -16,7 +16,11 @@ const Timer = ({ timers: { start, end }, style }) => {
         <React.Fragment>
           {calculateTimeLength(start, end ? end : new Date())}s
         </React.Fragment>
-      ) : null}
+      ) : (
+        <div style={{ marginBottom: 10 }}>
+          Type the word on the screen. Go on! :)
+        </div>
+      )}
     </div>
   )
 }

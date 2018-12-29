@@ -12,6 +12,7 @@ import createWordState from "./utils/createWordState"
 import MobileApologies from "./components/MobileApologies"
 import Button from "./components/Button"
 import Mistakes from "./components/Mistakes"
+import isMobile from "./utils/isMobile"
 
 const getRandomIndex = wordLength =>
   parseInt(Math.random() * wordList[wordLength].length)
@@ -40,8 +41,10 @@ const App = () => {
     // }
     {}
   )
-  const getNewWord = customWordLength =>
+  const getNewWord = customWordLength => {
     setWordState(getNewWordState(customWordLength || settings.wordLength))
+    setTimers({ start: false, end: false })
+  }
 
   return (
     <div className="App">
@@ -49,6 +52,7 @@ const App = () => {
         <div
           style={{
             display: "flex",
+            alignItems: "center",
             fontSize: 17,
             paddingTop: 10,
             width: "100%",
@@ -56,19 +60,33 @@ const App = () => {
           }}
         >
           <HighScores highScores={highScores} setHighScores={setHighScores} />
+          <div style={{ fontSize: 40 }}>
+            {showSettings ? "Settings" : showMistakes ? "Mistakes" : null}
+          </div>
           <div
             style={{
-              display: "flex"
+              display: "flex",
+              width: 400
             }}
           >
             {!showMistakes && (
-              <Button onClick={() => setShowSettings(!showSettings)}>
+              <Button
+                onClick={() => {
+                  setShowSettings(!showSettings)
+                  getNewWord(settings.wordLength)
+                }}
+              >
                 {showSettings ? "Close" : "Show settings"}
               </Button>
             )}
             {!showSettings && (
-              <Button onClick={() => setShowMistakes(!showMistakes)}>
-                {showMistakes ? "Close" : "Show Mistakes"}
+              <Button
+                onClick={() => {
+                  setShowMistakes(!showMistakes)
+                  getNewWord(settings.wordLength)
+                }}
+              >
+                {showMistakes ? "Close" : "Show mistakes"}
               </Button>
             )}
           </div>
@@ -105,10 +123,5 @@ console["tapLog"] = (...yargs) => {
   console.log(...yargs)
   return yargs[yargs.length - 1]
 }
-
-const isMobile = () =>
-  /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
 
 export default branch(isMobile, renderComponent(MobileApologies))(App)

@@ -1,7 +1,14 @@
 import React from "react"
 
 const HighScores = ({ highScores, setHighScores }) => (
-  <div style={{ paddingLeft: 20 }}>
+  <div
+    style={{
+      width: 400,
+      textAlign: "left",
+      paddingLeft: 20,
+      boxSizing: "border-box"
+    }}
+  >
     <div style={{ textDecoration: "underline", marginBottom: 5 }}>
       High scores
     </div>
