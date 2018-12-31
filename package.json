@@ -15,8 +15,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "now-build": "react-scripts build && mv build dist",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "ship": "now && now alias"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -18,7 +18,7 @@ const Timer = ({ timers: { start, end }, style, hasHighScore }) => {
         </React.Fragment>
       ) : !hasHighScore ? (
         <div style={{ marginBottom: 10 }}>
-          Type the word on the screen. Go on! :)
+          Type the word on the screen. Go on!
         </div>
       ) : null}
     </div>
