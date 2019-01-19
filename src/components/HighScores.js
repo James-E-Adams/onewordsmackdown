@@ -7,7 +7,8 @@ const HighScores = ({ highScores, setHighScores }) => (
       width: 400,
       textAlign: "left",
       paddingLeft: 20,
-      boxSizing: "border-box"
+      boxSizing: "border-box",
+      alignSelf: "normal"
     }}
   >
     <div style={{ textDecoration: "underline", marginBottom: 5 }}>

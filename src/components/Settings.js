@@ -19,18 +19,6 @@ const Settings = ({
             type="radio"
             className="nes-radio"
             key={wordLength}
-            // style={{
-            //   border: "white solid",
-            //   padding: 14,
-            //   display: "flex",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            //   width: 40,
-            //   height: 40,
-            //   borderRadius: 100,
-            //   marginRight: index !== WORD_LENGTHS - 1 && 20,
-            //   backgroundColor: wordLength === currentWordLength && "lightblue"
-            // }}
             onClick={() => {
               setSettings({ ...settings, wordLength })
               getNewWord(wordLength)
