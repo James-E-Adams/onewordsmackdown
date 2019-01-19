@@ -28,6 +28,9 @@ const Footer = ({ timers, ...props }) => (
         James Adams{" "}
       </a>
     </div>
+    <div style={{ marginTop: 10, textDecoration: "italic", fontSize: 12 }}>
+      Best played full screen.
+    </div>
   </div>
 )
 

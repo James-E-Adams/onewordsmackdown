@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react"
 
 import calculateTimeLength from "../utils/calculateTimeLength"
 
-const Timer = ({ timers: { start, end }, style, hasHighScore }) => {
+const Timer = ({
+  timers: { start, end },
+  style,
+  hasHighScore,
+  showInstructions
+}) => {
   const [key, setKey] = useState(true)
   // quickest and dirtiest way to force the rerender
   useEffect(() => {
@@ -16,7 +21,7 @@ const Timer = ({ timers: { start, end }, style, hasHighScore }) => {
         <React.Fragment>
           {calculateTimeLength(start, end ? end : new Date())}s
         </React.Fragment>
-      ) : !hasHighScore ? (
+      ) : !hasHighScore && showInstructions ? (
         <div style={{ marginBottom: 10 }}>
           Type the word on the screen. Go on!
         </div>

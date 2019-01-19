@@ -72,7 +72,7 @@ const MistakeRow = ({ mistakeKey, mistakeCount }) => (
 // }
 
 const Mistakes = ({ mistakes, setMistakes, ...props }) => {
-  //   const mistakes = seedMistakes //TODO
+  // const mistakes = seedMistakes //TODO
   const mistakeKeys = Object.keys(mistakes)
 
   return (
