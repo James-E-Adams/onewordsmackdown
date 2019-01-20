@@ -1,4 +1,5 @@
 import React from "react"
+import Button from "./Button"
 
 const HighScores = ({ highScores, setHighScores }) => (
   <div
@@ -6,7 +7,8 @@ const HighScores = ({ highScores, setHighScores }) => (
       width: 400,
       textAlign: "left",
       paddingLeft: 20,
-      boxSizing: "border-box"
+      boxSizing: "border-box",
+      alignSelf: "normal"
     }}
   >
     <div style={{ textDecoration: "underline", marginBottom: 5 }}>
@@ -21,13 +23,11 @@ const HighScores = ({ highScores, setHighScores }) => (
         <span style={{ fontWeight: 700 }}>({highScores[wordLength].word})</span>
       </div>
     ))}
-    <span
-      onClick={() => setHighScores({})}
-      style={{ color: "lightblue", paddingTop: 20 }}
-    >
-      {" "}
-      Reset{" "}
-    </span>
+    {Object.keys(highScores).length ? (
+      <Button onClick={() => setHighScores({})} red style={{ marginTop: 20 }}>
+        Reset
+      </Button>
+    ) : null}
   </div>
 )
 

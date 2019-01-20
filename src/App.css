@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: "Press Start 2P", cursive;
 }
 
 .App-root {
@@ -15,7 +16,7 @@
 }
 
 .word-goal {
-  font-size: 100px;
+  font-size: 50px;
 }
 .word-progress {
   color: darkslategray;

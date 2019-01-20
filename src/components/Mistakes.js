@@ -72,16 +72,17 @@ const MistakeRow = ({ mistakeKey, mistakeCount }) => (
 // }
 
 const Mistakes = ({ mistakes, setMistakes, ...props }) => {
-  //   const mistakes = seedMistakes //TODO
+  // const mistakes = seedMistakes //TODO
   const mistakeKeys = Object.keys(mistakes)
 
   return (
-    <div style={{ paddingTop: 20 }} {...props}>
+    <div style={{ paddingTop: 20, maxWidth: 500 }} {...props}>
       {mistakeKeys.map(mistake => (
         <MistakeRow mistakeKey={mistake} mistakeCount={mistakes[mistake]} />
       ))}
-      {!mistakeKeys.length &&
-        "No mistakes found. Go on, mess up. It's okay not to be perfect all the time!"}
+      {!mistakeKeys.length
+        ? "No mistakes found. Go on, mess up. It's okay not to be perfect all the time!"
+        : null}
     </div>
   )
 }

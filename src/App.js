@@ -1,6 +1,10 @@
 import branch from "recompose/branch"
-import React, { useState } from "react"
+import React from "react"
 import renderComponent from "recompose/renderComponent"
+import withState from "recompose/withState"
+import compose from "recompose/compose"
+import withHandlers from "recompose/withHandlers"
+import withPropsOnChange from "recompose/withPropsOnChange"
 
 import "./App.css"
 import wordList from "./wordList.json"
@@ -22,30 +26,30 @@ const getRandomWord = wordLength =>
 
 const getNewWordState = wordLength => createWordState(getRandomWord(wordLength))
 
-const App = () => {
-  const [settings, setSettings] = useState({
-    wordLength: "10"
-  })
-  const [showSettings, setShowSettings] = useState(false)
-  const [showMistakes, setShowMistakes] = useState(false)
-  const [timers, setTimers] = useState({ start: false, end: false })
-  const [wordState, setWordState] = useState(
-    getNewWordState(settings.wordLength)
-  )
-  const [mistakes, setMistakes] = useState({})
-  const [highScores, setHighScores] = useState(
-    // {
-    //   "5": "0.000",
-    //   "10": "",
-    //   "15": "1.223"
-    // }
-    {}
-  )
-  const getNewWord = customWordLength => {
-    setWordState(getNewWordState(customWordLength || settings.wordLength))
-    setTimers({ start: false, end: false })
-  }
+const marginLeftStyle = {
+  marginLeft: "auto"
+}
 
+const App = ({
+  getNewWord,
+  goToSettings,
+  highScores,
+  setHighScores,
+  showSettings,
+  showMistakes,
+  goToMistakes,
+  setSettings,
+  settings,
+  mistakes,
+  setMistakes,
+  wordState,
+  closeMistakes,
+  closeSettings,
+  setWordState,
+  timers,
+  setTimers,
+  showInstructions
+}) => {
   return (
     <div className="App">
       <div className="App-root">
@@ -66,27 +70,23 @@ const App = () => {
           <div
             style={{
               display: "flex",
-              width: 400
+              width: 400,
+              paddingRight: 20
             }}
           >
-            {!showMistakes && (
+            {!showMistakes && !showSettings ? (
+              <React.Fragment>
+                <Button onClick={goToSettings} style={marginLeftStyle}>
+                  Show settings
+                </Button>
+                <Button onClick={goToMistakes}>Show mistakes</Button>
+              </React.Fragment>
+            ) : (
               <Button
-                onClick={() => {
-                  setShowSettings(!showSettings)
-                  getNewWord(settings.wordLength)
-                }}
+                onClick={showSettings ? closeSettings : closeMistakes}
+                style={marginLeftStyle}
               >
-                {showSettings ? "Close" : "Show settings"}
-              </Button>
-            )}
-            {!showSettings && (
-              <Button
-                onClick={() => {
-                  setShowMistakes(!showMistakes)
-                  getNewWord(settings.wordLength)
-                }}
-              >
-                {showMistakes ? "Close" : "Show mistakes"}
+                Close
               </Button>
             )}
           </div>
@@ -117,6 +117,7 @@ const App = () => {
           timers={timers}
           setTimers={setTimers}
           hasHighScore={Boolean(Object.keys(highScores).length)}
+          showInstructions={showInstructions}
         />
       </div>
     </div>
@@ -128,4 +129,62 @@ console["tapLog"] = (...yargs) => {
   return yargs[yargs.length - 1]
 }
 
-export default branch(isMobile, renderComponent(MobileApologies))(App)
+const initialWordState = ({ settings }) => getNewWordState(settings.wordLength)
+
+const goToMistakes = ({ setShowMistakes, showMistakes, settings }) => () => {
+  setShowMistakes(!showMistakes)
+  getNewWord(settings.wordLength)
+}
+
+const goToSettings = ({ setShowSettings, showSettings, settings }) => () => {
+  setShowSettings(!showSettings)
+  getNewWord(settings.wordLength)
+}
+
+const getNewWord = ({
+  settings,
+  setWordState,
+  setTimers
+}) => customWordLength => {
+  setWordState(getNewWordState(customWordLength || settings.wordLength))
+  setTimers({ start: false, end: false })
+}
+
+const closeSettings = ({ setShowSettings, getNewWord, settings }) => () => {
+  setShowSettings(false)
+  getNewWord(settings.wordLength)
+}
+
+const closeMistakes = ({ setShowMistakes, getNewWord, settings }) => () => {
+  setShowMistakes(false)
+  getNewWord(settings.wordLength)
+}
+
+const EMPTY_OBJECT = {}
+
+const showInstructions = ({ showMistakes, showSettings }) => ({
+  showInstructions: !showMistakes && !showSettings
+})
+
+export default compose(
+  branch(isMobile, renderComponent(MobileApologies)),
+  withState("settings", "setSettings", {
+    wordLength: "10"
+  }),
+  withState("showSettings", "setShowSettings", false),
+  withState("showMistakes", "setShowMistakes", false),
+  withState("timers", "setTimers", { start: false, end: false }),
+  withState("wordState", "setWordState", initialWordState),
+  withState("mistakes", "setMistakes", EMPTY_OBJECT),
+  withState("highScores", "setHighScores", EMPTY_OBJECT),
+  withHandlers({
+    getNewWord
+  }),
+  withHandlers({
+    goToMistakes,
+    goToSettings,
+    closeSettings,
+    closeMistakes
+  }),
+  withPropsOnChange(["showMistakes", "showSettings"], showInstructions)
+)(App)
