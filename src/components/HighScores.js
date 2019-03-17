@@ -1,16 +1,16 @@
-import React from "react"
-import Button from "./Button"
+import React from "react";
+import Button from "./Button";
+
+const containerStyle = {
+  width: 400,
+  textAlign: "left",
+  paddingLeft: 20,
+  boxSizing: "border-box",
+  alignSelf: "normal"
+};
 
 const HighScores = ({ highScores, setHighScores }) => (
-  <div
-    style={{
-      width: 400,
-      textAlign: "left",
-      paddingLeft: 20,
-      boxSizing: "border-box",
-      alignSelf: "normal"
-    }}
-  >
+  <div style={containerStyle}>
     <div style={{ textDecoration: "underline", marginBottom: 5 }}>
       High scores
     </div>
@@ -29,6 +29,6 @@ const HighScores = ({ highScores, setHighScores }) => (
       </Button>
     ) : null}
   </div>
-)
+);
 
-export default HighScores
+export default HighScores;

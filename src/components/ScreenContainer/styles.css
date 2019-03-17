@@ -14,18 +14,3 @@
   color: white;
   overflow: hidden;
 }
-
-.word-goal {
-  font-size: 50px;
-}
-.word-progress {
-  color: darkslategray;
-}
-
-.word-remaining {
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}

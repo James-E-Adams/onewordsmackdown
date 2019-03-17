@@ -1,28 +1,21 @@
-import React from "react"
+import React from "react";
+import withHandlers from "recompose/withHandlers";
 
-const WORD_LENGTHS = ["5", "10", "15"]
+const WORD_LENGTHS = ["5", "10", "15"];
 
 const Settings = ({
-  settings: { wordLength: currentWordLength, ...settings },
-  setSettings,
-  getNewWord
+  settings: { wordLength: currentWordLength },
+  setWordLengthFy
 }) => (
   <div>
     <div style={{ paddingRight: 20 }}>Word length</div>
-    <div
-      //  style={{ display: "flex", marginTop: 20 }}
-      className="nes-select"
-    >
-      {WORD_LENGTHS.map((wordLength, index) => (
-        <label style={{ display: "block" }}>
+    <div className="nes-select">
+      {WORD_LENGTHS.map(wordLength => (
+        <label key={wordLength} style={{ display: "block" }}>
           <input
             type="radio"
             className="nes-radio"
-            key={wordLength}
-            onClick={() => {
-              setSettings({ ...settings, wordLength })
-              getNewWord(wordLength)
-            }}
+            onClick={setWordLengthFy(wordLength)}
             checked={wordLength === currentWordLength}
           />
           <span>{wordLength}</span>
@@ -30,6 +23,15 @@ const Settings = ({
       ))}
     </div>
   </div>
-)
+);
 
-export default Settings
+const setWordLengthFy = ({
+  setSettings,
+  settings: { wordLength: currentWordLength, ...settings },
+  getNewWord
+}) => wordLength => () => {
+  setSettings({ ...settings, wordLength });
+  getNewWord(wordLength);
+};
+
+export default withHandlers({ setWordLengthFy })(Settings);

@@ -1,38 +1,38 @@
-import React from "react"
-import compose from "recompose/compose"
+import React from "react";
+import compose from "recompose/compose";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const rowStyle = {
   display: "flex",
   alignItems: "center"
-}
+};
 
 const rightMargin10 = {
   marginRight: 10
-}
+};
 const rightMargin20 = {
   marginRight: 20
-}
+};
 
 const letterStyle = {
   fontWeight: 900,
   fontSize: 40
-}
+};
 
 const firstLetterStyle = {
   ...rightMargin10,
   ...letterStyle
-}
+};
 const secondLetterStyle = {
   ...rightMargin20,
   ...letterStyle
-}
+};
 const toStyle = {
   ...rightMargin10,
   fontSize: 20
-}
+};
 
 const MistakeRow = ({ mistakeKey, mistakeCount }) => (
   <div style={rowStyle}>
@@ -46,7 +46,7 @@ const MistakeRow = ({ mistakeKey, mistakeCount }) => (
     </div>
     <div>{mistakeCount}</div>
   </div>
-)
+);
 
 // const seedMistakes = {
 //   al: 25,
@@ -72,8 +72,8 @@ const MistakeRow = ({ mistakeKey, mistakeCount }) => (
 // }
 
 const Mistakes = ({ mistakes, setMistakes, ...props }) => {
-  // const mistakes = seedMistakes //TODO
-  const mistakeKeys = Object.keys(mistakes)
+  // const mistakes = seedMistakes //TODO just used for testing
+  const mistakeKeys = Object.keys(mistakes);
 
   return (
     <div style={{ paddingTop: 20, maxWidth: 500 }} {...props}>
@@ -84,7 +84,7 @@ const Mistakes = ({ mistakes, setMistakes, ...props }) => {
         ? "No mistakes found. Go on, mess up. It's okay not to be perfect all the time!"
         : null}
     </div>
-  )
-}
+  );
+};
 
-export default compose()(Mistakes)
+export default compose()(Mistakes);
