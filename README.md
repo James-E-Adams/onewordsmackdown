@@ -1,5 +1,7 @@
 # One word smackdown!
 
+I let the domain lapse because $$$. 
+
 A one word typing extravaganza.
 [Check it out!](https://onewordsmackdown.xyz/)
 
